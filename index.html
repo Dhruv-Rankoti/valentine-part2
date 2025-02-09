@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Valentine's Day</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <img src="img/image1.gif" alt="pookie">
+        <div class="button-container">
+            <h1>Will you be my Valentine?</h1>
+            <button id="yes-button">Yes</button>
+            <button id="no-button">No</button>
+        </div>
+        <div id="celebration-message" class="hidden">🎉 You made my day! 😘</div>
+    </div>
+    <script>
+const scripts = ['script1.js', 'script2.js', 'script3.js'];
+
+        const randomScript = scripts[Math.floor(Math.random() * scripts.length)];
+        const scriptElement = document.createElement('script');
+        scriptElement.src = `scripts/${randomScript}`;
+        document.body.appendChild(scriptElement);
+    </script>
+
+
+</body>
+</html>

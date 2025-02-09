@@ -1,0 +1,73 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #ffcccb;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.container {
+    text-align: center;
+}
+
+h1 {
+    color: #d5006d;
+}
+
+.button-container {
+    margin: 20px 0;
+}
+
+.fade-in {
+    opacity: 0;
+    transform: scale(0.7);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.fade-in.show:hover {
+    transition: transform 0.3s;
+    transform: scale(1.1);
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+button {
+    background-color: #ff69b4;
+    border: 1px solid #d5006d;
+    color: white;
+    border-radius: 5px;
+    padding: 15px 30px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+button:hover {
+    transform: scale(1.1);
+}
+
+#no-button:hover {
+    position: relative;
+}
+
+.hidden {
+    display: none;
+}
+
+#celebration-message {
+    font-weight: bold;
+    margin-top: 20px;
+    font-size: 24px;
+    color: #d5006d;
+}
