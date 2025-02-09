@@ -1,7 +1,6 @@
-
 const yesButton = document.getElementById('yes-button'); 
 const imgElement = document.querySelector('img');
-const images = ['img/image1.gif', 'img/image2.gif', 'img/image3.gif', 'img/image4.gif', 'img/image5.gif', 'img/image6.gif']; // Array of image paths (excluding image7)
+const images = ['img/image1.gif', 'img/image2.gif', 'img/image3.gif', 'img/image4.gif', 'img/image5.gif', 'img/image6.gif'];
 let currentImageIndex = 0;
 
 const noButton = document.getElementById('no-button');
@@ -62,53 +61,73 @@ function addYesButtons(count) {
             newYesButton.classList.add('show');
         }, 10);
 
-        // Drag functionality
+        // Drag functionality for mouse
         newYesButton.onmousedown = function(event) {
-            currentlyDraggedButton = newYesButton;
-            currentlyDraggedButton.style.zIndex = '1000';
-            let shiftX = event.clientX - newYesButton.getBoundingClientRect().left;
-            let shiftY = event.clientY - newYesButton.getBoundingClientRect().top;
+            startDragging(event, newYesButton);
+        };
 
-            function moveAt(pageX, pageY) {
-                const buttonRect = newYesButton.getBoundingClientRect();
-                
-                let newLeft = pageX - shiftX;
-                let newTop = pageY - shiftY;
-
-                if (newLeft < 0) newLeft = 0;
-                if (newTop < 0) newTop = 0;
-                if (newLeft + buttonRect.width > window.innerWidth) newLeft = window.innerWidth - buttonRect.width;
-                if (newTop + buttonRect.height > window.innerHeight) newTop = window.innerHeight - buttonRect.height;
-                
-                currentlyDraggedButton.style.left = newLeft + 'px';
-                currentlyDraggedButton.style.top = newTop + 'px';
-                isBetweenDragAndClick = true;
-            }
-
-            function onMouseMove(event) {
-                if (isDragging) moveAt(event.pageX, event.pageY);
-            }
-
-            document.addEventListener('mousemove', onMouseMove);
-            isDragging = true;
-
-            newYesButton.onmouseup = function() {
-                currentlyDraggedButton.style.zIndex = '';
-                currentlyDraggedButton = null;
-                isDragging = false;
-                document.removeEventListener('mousemove', onMouseMove);
-                newYesButton.onmouseup = null;
-            };
+        // Drag functionality for touch
+        newYesButton.ontouchstart = function(event) {
+            startDragging(event.touches[0], newYesButton);
         };
     }
 
-    // Stop dragging when mouse leaves the window
+    // Function to start dragging
+    function startDragging(event, button) {
+        currentlyDraggedButton = button;
+        currentlyDraggedButton.style.zIndex = '1000';
+        let shiftX = event.clientX - button.getBoundingClientRect().left;
+        let shiftY = event.clientY - button.getBoundingClientRect().top;
+
+        function moveAt(pageX, pageY) {
+            const buttonRect = button.getBoundingClientRect();
+            
+            let newLeft = pageX - shiftX;
+            let newTop = pageY - shiftY;
+
+            if (newLeft < 0) newLeft = 0;
+            if (newTop < 0) newTop = 0;
+            if (newLeft + buttonRect.width > window.innerWidth) newLeft = window.innerWidth - buttonRect.width;
+            if (newTop + buttonRect.height > window.innerHeight) newTop = window.innerHeight - buttonRect.height;
+            
+            currentlyDraggedButton.style.left = newLeft + 'px';
+            currentlyDraggedButton.style.top = newTop + 'px';
+            isBetweenDragAndClick = true;
+        }
+
+        function onMouseMove(event) {
+            if (isDragging) moveAt(event.pageX, event.pageY);
+        }
+
+        function onTouchMove(event) {
+            if (isDragging) moveAt(event.touches[0].pageX, event.touches[0].pageY);
+        }
+
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('touchmove', onTouchMove);
+        isDragging = true;
+
+        button.onmouseup = function() {
+            stopDragging();
+        };
+        button.ontouchend = function() {
+            stopDragging();
+        };
+
+        function stopDragging() {
+            currentlyDraggedButton.style.zIndex = '';
+            currentlyDraggedButton = null;
+            isDragging = false;
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('touchmove', onTouchMove);
+        }
+    }
+
     document.addEventListener('mouseleave', () => {
         isDragging = false;
     });
 }
 
-// Function to clear all buttons from the screen
 function clearButtons() {
     const buttonContainer = document.querySelector('.button-container');
     buttonContainer.innerHTML = '';
